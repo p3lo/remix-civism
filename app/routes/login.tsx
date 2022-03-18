@@ -11,7 +11,9 @@ export default function Screen() {
   return (
     <Center className="mt-10">
       <Form method="post" action="/auth0">
-        <button>Sign in</button>
+        <Button variant="subtle" type="submit">
+          Sign In with Auth0
+        </Button>
       </Form>
     </Center>
   );
