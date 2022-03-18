@@ -2,7 +2,14 @@ import { Link, Links, LinksFunction, LiveReload, Meta, Outlet, Scripts, ScrollRe
 import type { MetaFunction } from 'remix';
 import styles from './tailwind.css';
 import { useState } from 'react';
-import { MantineProvider, ColorSchemeProvider, ColorScheme, ActionIcon, useMantineColorScheme } from '@mantine/core';
+import {
+  MantineProvider,
+  ColorSchemeProvider,
+  ColorScheme,
+  ActionIcon,
+  useMantineColorScheme,
+  Button,
+} from '@mantine/core';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { useColorScheme } from '@mantine/hooks';
 
@@ -61,7 +68,10 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
               <h1 className="text-2xl font-extrabold">Civism</h1>
             </Link>
           </div>
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end space-x-3">
+            <Link to="/login">
+              <Button variant="subtle">Login</Button>
+            </Link>
             <ActionIcon
               variant="outline"
               color={dark ? 'yellow' : 'blue'}
