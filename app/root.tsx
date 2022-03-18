@@ -4,6 +4,7 @@ import styles from './tailwind.css';
 import { useState } from 'react';
 import { MantineProvider, ColorSchemeProvider, ColorScheme, ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { BsSun, BsMoon } from 'react-icons/bs';
+import { useColorScheme } from '@mantine/hooks';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -14,7 +15,8 @@ export const meta: MetaFunction = () => ({
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export default function App() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const preferredColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
@@ -52,16 +54,23 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
   const dark = colorScheme === 'dark';
   return (
     <div className="flex flex-col justify-between h-screen">
-      <header className="p-4 shadow-xl ">
-        <div className="flex justify-end ">
-          <ActionIcon
-            variant="outline"
-            color={dark ? 'yellow' : 'blue'}
-            onClick={() => toggleColorScheme()}
-            title="Toggle color scheme"
-          >
-            {dark ? <BsSun size={18} className="text-yellow-400" /> : <BsMoon size={18} className="text-blue-500" />}
-          </ActionIcon>
+      <header className="p-3 shadow-xl ">
+        <div className="grid grid-cols-3">
+          <div className="flex justify-center col-start-2">
+            <Link to="/">
+              <h1 className="text-2xl font-extrabold">Civism</h1>
+            </Link>
+          </div>
+          <div className="flex justify-end">
+            <ActionIcon
+              variant="outline"
+              color={dark ? 'yellow' : 'blue'}
+              onClick={() => toggleColorScheme()}
+              title="Toggle color scheme"
+            >
+              {dark ? <BsSun size={18} className="text-yellow-400" /> : <BsMoon size={18} className="text-blue-500" />}
+            </ActionIcon>
+          </div>
         </div>
       </header>
       <main className="flex-grow">
