@@ -23,9 +23,11 @@ export default function Index() {
 
       <hr />
       {profile && (
-        <pre>
-          <code>{JSON.stringify(profile, null, 2)}</code>
-        </pre>
+        <>
+          <pre>
+            <code>{JSON.stringify(profile, null, 2)}</code>
+          </pre>
+        </>
       )}
     </>
   );
