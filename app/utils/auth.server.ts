@@ -9,6 +9,7 @@ import {
   AUTH0_DOMAIN,
   SECRETS,
 } from '~/constants/index.server';
+import { prisma } from '~/db.server';
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -34,7 +35,13 @@ const auth0Strategy = new Auth0Strategy(
     //
     // Use the returned information to process or write to the DB.
     //
-    console.log(profile);
+    await prisma.user.create({
+      data: {
+        name: profile._json.nickname,
+        email: profile._json.email,
+        picture: profile._json.picture,
+      },
+    });
     return profile;
   }
 );

@@ -29,18 +29,24 @@ import {
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { useColorScheme } from '@mantine/hooks';
 import { auth } from './utils/auth.server';
+import { prisma } from './db.server';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'Civism',
   viewport: 'width=device-width,initial-scale=1',
 });
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const profile = await auth.isAuthenticated(request);
-  if (profile) {
+  const auth_profile = await auth.isAuthenticated(request);
+  if (auth_profile) {
+    const profile = await prisma.user.findUnique({
+      where: {
+        email: auth_profile._json.email,
+      },
+    });
     return json(profile);
   } else {
     return null;
@@ -102,7 +108,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
                 delay={500}
                 control={
                   <Avatar color="cyan" radius="xl">
-                    {profile._json.nickname.charAt(0).toUpperCase()}
+                    {profile.name.charAt(0).toUpperCase()}
                   </Avatar>
                 }
               >
