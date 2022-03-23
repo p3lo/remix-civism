@@ -35,12 +35,15 @@ const auth0Strategy = new Auth0Strategy(
     //
     // Use the returned information to process or write to the DB.
     //
-    await prisma.user.create({
-      data: {
-        name: profile._json.nickname,
-        email: profile._json.email,
-        picture: profile._json.picture,
-      },
+    await prisma.user.createMany({
+      data: [
+        {
+          name: profile._json.nickname,
+          email: profile._json.email,
+          picture: profile._json.picture,
+        },
+      ],
+      skipDuplicates: true,
     });
     return profile;
   }

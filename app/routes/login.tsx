@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Screen() {
   return (
-    <Center className="mt-10">
+    <Center className="mt-[20vh]">
       <Form method="post" action="/auth0">
         <Button variant="subtle" type="submit">
           Sign In with Auth0

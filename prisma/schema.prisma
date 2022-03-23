@@ -10,9 +10,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   id      Int     @id @default(autoincrement())
   name    String
   email   String  @unique
   picture String?
+  polls   poll[]
+}
+
+model poll {
+  id               Int      @id @default(autoincrement())
+  poll             String
+  poll_description String?
+  slug             String
+  private          Boolean
+  author           user     @relation(fields: [authorId], references: [id])
+  authorId         Int
+  options          option[]
+}
+
+model option {
+  id     Int    @id @default(autoincrement())
+  option String
+  votes  Int    @default(0)
+  poll   poll   @relation(fields: [pollId], references: [id])
+  pollId Int
 }

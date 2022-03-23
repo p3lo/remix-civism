@@ -25,6 +25,7 @@ import {
   Button,
   Avatar,
   Menu,
+  Divider,
 } from '@mantine/core';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { useColorScheme } from '@mantine/hooks';
@@ -47,6 +48,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         email: auth_profile._json.email,
       },
     });
+
     return json(profile);
   } else {
     return null;
@@ -104,7 +106,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
           <div className="flex items-center justify-end space-x-3">
             {profile ? (
               <Menu
-                trigger="hover"
+                trigger="click"
                 delay={500}
                 control={
                   <Avatar color="cyan" radius="xl">
@@ -112,9 +114,17 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
                   </Avatar>
                 }
               >
+                <Menu.Item>Profile</Menu.Item>
+                <Divider />
+                <Menu.Item>
+                  <Link to="/new">New poll</Link>
+                </Menu.Item>
+                <Menu.Item>My polls</Menu.Item>
+
+                <Divider />
                 <Form method="post" action="/logout">
-                  <Menu.Item color="red">
-                    <button>Logout</button>
+                  <Menu.Item component="button" type="submit" color="red">
+                    Logout
                   </Menu.Item>
                 </Form>
               </Menu>
