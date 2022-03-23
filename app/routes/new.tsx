@@ -127,7 +127,7 @@ export default function New() {
           Add answer
         </button>
         <Button className="w-[200px] mx-auto" variant="subtle" type="submit">
-          Add poll
+          Save poll & publish
         </Button>
       </Form>
     </div>
