@@ -1,31 +1,31 @@
-import { Form, json, LoaderFunction, useLoaderData } from 'remix';
-import { Auth0Profile } from 'remix-auth-auth0';
-import { auth } from '~/utils/auth.server';
+import { json, LoaderFunction, useLoaderData } from 'remix';
+import { prisma } from '~/db.server';
 
-type LoaderData = { profile: Auth0Profile };
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const profile = await auth.isAuthenticated(request);
-  if (profile) {
-    return json<LoaderData>({ profile });
-  } else {
-    return null;
-  }
+export const loader: LoaderFunction = async () => {
+  const polls = await prisma.poll.findMany({
+    where: {
+      private: false,
+    },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+      options: true,
+    },
+  });
+  return json({ polls });
 };
 
 export default function Index() {
-  const profile = useLoaderData();
+  const polls = useLoaderData();
   return (
     <>
-      <Form method="post" action="/logout">
-        <button>Log Out</button>
-      </Form>
-
-      <hr />
-      {profile && (
+      {polls && (
         <>
           <pre>
-            <code>{JSON.stringify(profile, null, 2)}</code>
+            <code>{JSON.stringify(polls, null, 2)}</code>
           </pre>
         </>
       )}
