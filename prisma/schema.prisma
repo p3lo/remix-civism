@@ -20,6 +20,7 @@ model user {
 
 model poll {
   id               Int      @id @default(autoincrement())
+  created_at       DateTime @default(now())
   poll             String
   poll_description String?
   slug             String
