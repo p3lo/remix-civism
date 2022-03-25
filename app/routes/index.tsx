@@ -1,7 +1,6 @@
-import { json, Link, LoaderFunction, useLoaderData } from 'remix';
+import { LoaderFunction, useLoaderData } from 'remix';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
-import { getDate } from '~/utils/functions';
 import { Poll } from '~/utils/types';
 
 export const loader: LoaderFunction = async () => {
