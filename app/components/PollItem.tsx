@@ -1,4 +1,4 @@
-import { Popover } from '@mantine/core';
+import { Popover, Progress } from '@mantine/core';
 import { useState } from 'react';
 import { Link } from 'remix';
 import { getDate } from '~/utils/functions';
@@ -21,12 +21,11 @@ function PollItem({ poll }: { poll: Poll }) {
       spacing={5}
       styles={{ body: { pointerEvents: 'none' } }}
       target={
-        <div className="flex items-start">
-          <Link
-            to={poll.slug}
-            className="flex flex-col p-2 border border-gray-300 border-opacity-0 rounded-lg cursor-pointer grow hover:border hover:border-opacity-50"
-          >
-            <p className="font-bold ">{poll.poll}</p>
+        <div className="flex items-start border-b border-opacity-50 border-dotted">
+          <Link to={poll.slug} className="flex flex-col p-2 rounded-lg cursor-pointer grow group">
+            <p className="font-bold transition duration-150 ease-out transform group-hover:font-extrabold">
+              {poll.poll}
+            </p>
             {poll.poll_description && <p className="pb-2 text-xs opacity-60">({poll.poll_description})</p>}
             <div className="flex space-x-1 text-xs opacity-50">
               <p>{poll.author.name}</p>
@@ -35,7 +34,7 @@ function PollItem({ poll }: { poll: Poll }) {
             </div>
           </Link>
           <AiOutlineEye
-            className="w-5 h-5 m-2 cursor-pointer"
+            className="w-5 h-5 m-2 transition duration-150 ease-out transform cursor-help hover:scale-125"
             onMouseEnter={() => setOpened(true)}
             onMouseLeave={() => setOpened(false)}
           />
@@ -51,9 +50,10 @@ function PollItem({ poll }: { poll: Poll }) {
         </div>
         <div className="flex flex-col">
           <p className="text-sm">Kokot</p>
-          <div className="h-[25px] w-[400px] border border-dashed opacity-50 relative">
-            <p className="absolute w-full top-[3px] text-xs text-center mix-blend-difference font-semibold">50%</p>
-            <div className="w-[50%] h-full bg-slate-400"></div>
+          <div className="flex items-center space-x-1">
+            <p className="text-xs opacity-50">25%</p>
+            <Progress value={1} size={25} radius="xs" className="grow" />
+            <p className="text-xs opacity-50 w-[45px] text-center">(2457)</p>
           </div>
         </div>
       </div>
