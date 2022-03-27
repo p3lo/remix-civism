@@ -20,6 +20,7 @@ export const loader: LoaderFunction = async () => {
       created_at: 'desc',
     },
   });
+
   return polls;
 };
 

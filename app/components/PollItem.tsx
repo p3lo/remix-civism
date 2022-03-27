@@ -1,12 +1,13 @@
 import { Popover, Progress } from '@mantine/core';
 import { useState } from 'react';
 import { Link } from 'remix';
-import { getDate } from '~/utils/functions';
+import { getDate, getPercent } from '~/utils/functions';
 import { Poll } from '~/utils/types';
 import { AiOutlineEye } from 'react-icons/ai';
 
 function PollItem({ poll }: { poll: Poll }) {
   const [opened, setOpened] = useState(false);
+  const totalVotes: number = poll.options.reduce((acc, curr) => acc + curr.votes, 0);
   return (
     <Popover
       opened={opened}
@@ -41,21 +42,18 @@ function PollItem({ poll }: { poll: Poll }) {
         </div>
       }
     >
-      <div className="flex flex-col space-y-2">
-        <div className="flex flex-col">
-          <p className="text-sm">Kokot</p>
-          <div className="h-[25px] w-[400px] border border-dashed opacity-50">
-            <div className="w-[50%] h-full bg-slate-400" />
+      <div className="flex flex-col space-y-2 w-[450px]">
+        <p className="mx-auto mt-2 font-bold">Poll votes</p>
+        {poll.options.map((item) => (
+          <div className="flex flex-col" key={item.id}>
+            <p className="text-sm">{item.option}</p>
+            <div className="flex items-center space-x-1">
+              <p className="text-xs opacity-50">{`${getPercent(item.votes, totalVotes)}%`}</p>
+              <Progress value={getPercent(item.votes, totalVotes)} size={25} radius="xs" className="grow" />
+              <p className="text-xs opacity-50 w-[45px] text-center">({item.votes})</p>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col">
-          <p className="text-sm">Kokot</p>
-          <div className="flex items-center space-x-1">
-            <p className="text-xs opacity-50">25%</p>
-            <Progress value={1} size={25} radius="xs" className="grow" />
-            <p className="text-xs opacity-50 w-[45px] text-center">(2457)</p>
-          </div>
-        </div>
+        ))}
       </div>
     </Popover>
   );
