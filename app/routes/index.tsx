@@ -14,7 +14,11 @@ export const loader: LoaderFunction = async () => {
           name: true,
         },
       },
-      options: true,
+      options: {
+        orderBy: {
+          id: 'asc',
+        },
+      },
     },
     orderBy: {
       //@ts-ignore
