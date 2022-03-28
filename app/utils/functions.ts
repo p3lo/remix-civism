@@ -8,7 +8,7 @@ export function getDate(date: Date) {
   return month + 1 + '/' + day + '/' + year;
 }
 
-function sumVotes(options: Option[]) {
+export function sumVotes(options: Option[]) {
   return options.reduce((sum, option) => sum + option.votes, 0);
 }
 

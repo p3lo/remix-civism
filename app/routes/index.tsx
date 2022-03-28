@@ -17,6 +17,7 @@ export const loader: LoaderFunction = async () => {
       options: true,
     },
     orderBy: {
+      //@ts-ignore
       created_at: 'desc',
     },
   });

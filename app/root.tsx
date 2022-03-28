@@ -15,7 +15,6 @@ import {
 } from 'remix';
 import type { MetaFunction } from 'remix';
 import styles from './tailwind.css';
-import { useState } from 'react';
 import {
   MantineProvider,
   ColorSchemeProvider,
@@ -28,7 +27,7 @@ import {
   Divider,
 } from '@mantine/core';
 import { BsSun, BsMoon } from 'react-icons/bs';
-import { useColorScheme } from '@mantine/hooks';
+import { useLocalStorage } from '@mantine/hooks';
 import { auth } from './utils/auth.server';
 import { prisma } from './db.server';
 
@@ -56,8 +55,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function App() {
-  const preferredColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light',
+  });
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
