@@ -2,7 +2,7 @@ import { Progress, Radio, RadioGroup } from '@mantine/core';
 import { ActionFunction, Form, LoaderFunction, useLoaderData, useSubmit, useTransition } from 'remix';
 import { prisma } from '~/db.server';
 import { getPercent, sumVotes } from '~/utils/functions';
-import { Option, Poll } from '~/utils/types';
+import { Poll } from '~/utils/types';
 
 export const loader: LoaderFunction = async ({ params }) => {
   let slug = params.slug;
