@@ -1,7 +1,7 @@
-import { Progress, Radio, RadioGroup } from '@mantine/core';
+import { ListItem, Progress, Radio, RadioGroup } from '@mantine/core';
 import { ActionFunction, Form, LoaderFunction, useLoaderData, useSubmit, useTransition } from 'remix';
 import { prisma } from '~/db.server';
-import { getPercent, sumVotes } from '~/utils/functions';
+import { getDate, getPercent, sumVotes } from '~/utils/functions';
 import { Poll } from '~/utils/types';
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -88,6 +88,10 @@ function PollSlug() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]">
+        <p className="text-sm opacity-50">Author: {poll.author.name}</p>
+        <p className="text-sm opacity-50">Created: {getDate(poll.created_at)}</p>
       </div>
     </>
   );
