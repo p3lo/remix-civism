@@ -1,4 +1,4 @@
-import { Code, Progress, Radio, RadioGroup } from '@mantine/core';
+import { Code, LoadingOverlay, Progress, Radio, RadioGroup } from '@mantine/core';
 import { useClipboard, useLocalStorage } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData, useSubmit, useTransition } from 'remix';
@@ -96,17 +96,23 @@ function PollSlug() {
         <p className="text-2xl font-bold text-center">{poll.poll}</p>
         {poll.poll_description && <p className="text-sm font-bold text-center opacity-50">({poll.poll_description})</p>}
       </div>
-      <Form method="post" onChange={handleChange}>
+
+      <Form
+        method="post"
+        onChange={handleChange}
+        className="relative w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]"
+      >
+        {/* @ts-ignore */}
+        <LoadingOverlay visible={transition.submission} />
         <RadioGroup
           name="option"
-          className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]"
+          className=""
           orientation="vertical"
           label="Select your preferable option"
           {...(optionId > 0 && { defaultValue: `${optionId.toString()}` })}
         >
           {poll.options.map((item) => (
-            // @ts-ignore
-            <Radio key={item.id} value={item.id.toString()} label={item.option} disabled={transition.submission} />
+            <Radio key={item.id} value={item.id.toString()} label={item.option} />
           ))}
         </RadioGroup>
         <input hidden name="oldOption" value={optionId} readOnly />

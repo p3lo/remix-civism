@@ -468,6 +468,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 
+.visible {
+  visibility: visible;
+}
+
+.relative {
+  position: relative;
+}
+
 .col-start-2 {
   grid-column-start: 2;
 }
