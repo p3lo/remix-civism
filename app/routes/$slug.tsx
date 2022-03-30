@@ -1,6 +1,6 @@
-import { Button, Code, Progress, Radio, RadioGroup } from '@mantine/core';
+import { Code, Progress, Radio, RadioGroup } from '@mantine/core';
 import { useClipboard, useLocalStorage } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData, useSubmit, useTransition } from 'remix';
 import { prisma } from '~/db.server';
 import { getDate, getPercent, sumVotes } from '~/utils/functions';
@@ -74,6 +74,7 @@ function PollSlug() {
   const [optionId, setOptionId] = useLocalStorage({ key: poll.id.toString(), defaultValue: 0 });
   const [pageURL, setPageURL] = useState('');
   const clipboard = useClipboard({ timeout: 1000 });
+  const totalVotes: number = useMemo(() => sumVotes(poll.options), [poll.options]);
 
   useEffect(() => {
     setPageURL(window.location.href);
@@ -111,14 +112,14 @@ function PollSlug() {
         <input hidden name="oldOption" value={optionId} readOnly />
       </Form>
       <div className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]">
-        <p className="text-center mt-2 font-semibold text-sm">Results</p>
-        <p className="text-center text-xs opacity-50">(Total votes: {sumVotes(poll.options)})</p>
+        <p className="mt-2 text-sm font-semibold text-center">Results</p>
+        <p className="text-xs text-center opacity-50">(Total votes: {totalVotes})</p>
         {poll.options.map((item) => (
           <div className="flex flex-col" key={item.id}>
             <p className="text-sm pl-7">{item.option}</p>
             <div className="flex items-center space-x-1">
-              <p className="w-[25px] text-xs opacity-50">{`${getPercent(item.votes, sumVotes(poll.options))}%`}</p>
-              <Progress value={getPercent(item.votes, sumVotes(poll.options))} size={25} radius="xs" className="grow" />
+              <p className="w-[25px] text-xs opacity-50">{`${getPercent(item.votes, totalVotes)}%`}</p>
+              <Progress value={getPercent(item.votes, totalVotes)} size={25} radius="xs" className="grow" />
               <p className="text-xs opacity-50 w-[45px] text-center">({item.votes})</p>
             </div>
           </div>
@@ -131,9 +132,9 @@ function PollSlug() {
           <p className="truncate">
             Link to share: <Code color="red">{pageURL}</Code>
           </p>
-          <div className="flex space-x-1 items-center">
+          <div className="flex items-center space-x-1">
             <RiFileCopy2Line
-              className="w-4 h-4 cursor-pointer transition duration-150 ease-out transform hover:scale-125"
+              className="w-4 h-4 transition duration-150 ease-out transform cursor-pointer hover:scale-125"
               onClick={() => clipboard.copy(pageURL)}
             />
             {clipboard.copied && <p className="text-xs">(Url copied)</p>}

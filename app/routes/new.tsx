@@ -123,9 +123,16 @@ export default function New() {
             )}
           </div>
         ))}
-        <button type="button" className="px-3 py-2 border border-dashed w-[200px] mx-auto text-sm" onClick={addAnswer}>
-          Add answer
-        </button>
+        {answers.length < 20 && (
+          <button
+            type="button"
+            className="px-3 py-2 border border-dashed w-[200px] mx-auto text-sm"
+            onClick={addAnswer}
+          >
+            Add answer
+          </button>
+        )}
+
         <Button className="w-[200px] mx-auto" variant="subtle" type="submit">
           Save poll & publish
         </Button>
