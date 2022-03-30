@@ -148,7 +148,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
       <main className="flex-grow">
         <div className="">{children}</div>
       </main>
-      <footer className="p-4 border-t"></footer>
+      <footer className="p-4 border-t opacity-50"></footer>
     </div>
   );
 }
