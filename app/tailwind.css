@@ -604,6 +604,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   cursor: help;
 }
 
+.cursor-copy {
+  cursor: copy;
+}
+
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }

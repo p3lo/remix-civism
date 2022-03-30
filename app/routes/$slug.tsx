@@ -1,10 +1,11 @@
-import { Progress, Radio, RadioGroup } from '@mantine/core';
-import { useLocalStorage } from '@mantine/hooks';
-import { useEffect } from 'react';
+import { Button, Code, Progress, Radio, RadioGroup } from '@mantine/core';
+import { useClipboard, useLocalStorage } from '@mantine/hooks';
+import { useEffect, useState } from 'react';
 import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData, useSubmit, useTransition } from 'remix';
 import { prisma } from '~/db.server';
 import { getDate, getPercent, sumVotes } from '~/utils/functions';
 import { Option, Poll } from '~/utils/types';
+import { RiFileCopy2Line } from 'react-icons/ri';
 
 export const loader: LoaderFunction = async ({ params }) => {
   let slug = params.slug;
@@ -71,6 +72,12 @@ function PollSlug() {
   const submit = useSubmit();
   const transition = useTransition();
   const [optionId, setOptionId] = useLocalStorage({ key: poll.id.toString(), defaultValue: 0 });
+  const [pageURL, setPageURL] = useState('');
+  const clipboard = useClipboard({ timeout: 1000 });
+
+  useEffect(() => {
+    setPageURL(window.location.href);
+  }, []);
 
   useEffect(() => {
     if (getData) {
@@ -117,9 +124,21 @@ function PollSlug() {
           </div>
         ))}
       </div>
-      <div className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]">
-        <p className="text-sm opacity-50">Author: {poll.author.name}</p>
-        <p className="text-sm opacity-50">Created: {getDate(poll.created_at)}</p>
+      <div className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%] text-sm opacity-50">
+        <p>Author: {poll.author.name}</p>
+        <p>Created: {getDate(poll.created_at)}</p>
+        <div className="flex items-center space-x-1">
+          <p className="truncate">
+            Link to share: <Code color="red">{pageURL}</Code>
+          </p>
+          <div className="flex space-x-1 items-center">
+            <RiFileCopy2Line
+              className="w-4 h-4 cursor-pointer transition duration-150 ease-out transform hover:scale-125"
+              onClick={() => clipboard.copy(pageURL)}
+            />
+            {clipboard.copied && <p className="text-xs">(Url copied)</p>}
+          </div>
+        </div>
       </div>
     </>
   );
