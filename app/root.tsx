@@ -115,12 +115,16 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
                   </Avatar>
                 }
               >
-                <Menu.Item>Profile</Menu.Item>
+                <Menu.Item>
+                  <Link to="/profile/settings">Profile</Link>
+                </Menu.Item>
                 <Divider />
                 <Menu.Item>
                   <Link to="/new">New poll</Link>
                 </Menu.Item>
-                <Menu.Item>My polls</Menu.Item>
+                <Menu.Item>
+                  <Link to="/profile/mypolls">My polls</Link>
+                </Menu.Item>
 
                 <Divider />
                 <Form method="post" action="/logout">
