@@ -682,6 +682,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1027,6 +1033,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     width: 50%;
   }
 
+  .md\:w-2\/3 {
+    width: 66.666667%;
+  }
+
   .md\:place-items-center {
     place-items: center;
   }
@@ -1046,6 +1056,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 
   .xl\:w-\[50\%\] {
+    width: 50%;
+  }
+
+  .xl\:w-1\/2 {
     width: 50%;
   }
 }
