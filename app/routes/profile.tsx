@@ -1,5 +1,5 @@
 import { Tabs } from '@mantine/core';
-import { ActionFunction, json, LoaderFunction, Outlet, redirect, useLoaderData, useSubmit } from 'remix';
+import { json, LoaderFunction, Outlet, redirect, useLoaderData, useNavigate } from 'remix';
 import { FiSettings } from 'react-icons/fi';
 import { BiPoll } from 'react-icons/bi';
 import { auth } from '~/utils/auth.server';
@@ -23,26 +23,18 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({ index: tabIndex });
 };
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const index = formData.get('index');
-  if (index === '0') {
-    return redirect(`/profile/settings`);
-  } else if (index === '1') {
-    return redirect(`/profile/mypolls`);
-  }
-  return null;
-};
-
 function ProfileLayout() {
   const tabInd = useLoaderData();
   const [activeTab, setActiveTab] = useState(tabInd.index);
-  const submit = useSubmit();
+  let navigate = useNavigate();
 
   function onChange(tabindex: number) {
     setActiveTab(tabindex);
-    const index = tabindex.toString();
-    submit({ index }, { method: 'post' });
+    if (tabindex === 0) {
+      navigate('/profile/settings', { replace: true });
+    } else if (tabindex === 1) {
+      navigate('/profile/mypolls', { replace: true });
+    }
   }
   return (
     <div className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]">
