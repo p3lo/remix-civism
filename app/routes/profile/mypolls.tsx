@@ -4,40 +4,41 @@ import { prisma } from '~/db.server';
 import { auth } from '~/utils/auth.server';
 import { Poll } from '~/utils/types';
 import { Button } from '@mantine/core';
+import invariant from 'tiny-invariant';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const auth_profile = await auth.isAuthenticated(request);
   let polls;
-  if (auth_profile) {
-    const profile = await prisma.user.findUnique({
+  invariant(auth_profile, 'auth_profile is required');
+
+  const profile = await prisma.user.findUnique({
+    where: {
+      email: auth_profile._json.email,
+    },
+  });
+  invariant(profile, 'profile is required');
+  if (profile?.id) {
+    polls = await prisma.poll.findMany({
       where: {
-        email: auth_profile._json.email,
+        authorId: profile.id,
+      },
+      include: {
+        options: {
+          orderBy: {
+            id: 'asc',
+          },
+        },
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        //@ts-ignore
+        created_at: 'desc',
       },
     });
-
-    if (profile?.id) {
-      polls = await prisma.poll.findMany({
-        where: {
-          authorId: profile.id,
-        },
-        include: {
-          options: {
-            orderBy: {
-              id: 'asc',
-            },
-          },
-          author: {
-            select: {
-              name: true,
-            },
-          },
-        },
-        orderBy: {
-          //@ts-ignore
-          created_at: 'desc',
-        },
-      });
-    }
   }
 
   return polls;

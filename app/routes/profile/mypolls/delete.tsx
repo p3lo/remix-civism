@@ -1,27 +1,25 @@
 import { Button, Modal } from '@mantine/core';
 import { ActionFunction, Form, json, LoaderFunction, redirect, useLoaderData, useMatches, useNavigate } from 'remix';
+import invariant from 'tiny-invariant';
 import { prisma } from '~/db.server';
 import { Poll } from '~/utils/types';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const pollId = url.searchParams.get('poll');
-  if (!pollId) {
-    return redirect('/profile/mypolls');
-  }
+  invariant(pollId, 'pollId is required');
   return json({ pollId });
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const pollId = formData.get('poll');
-  if (pollId) {
-    await prisma.poll.delete({
-      where: {
-        id: +pollId,
-      },
-    });
-  }
+  invariant(pollId, 'pollId is required');
+  await prisma.poll.delete({
+    where: {
+      id: +pollId,
+    },
+  });
 
   return redirect(`/profile/mypolls/`);
 };

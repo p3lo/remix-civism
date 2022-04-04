@@ -1,21 +1,24 @@
 import { Button, TextInput } from '@mantine/core';
 import { ActionFunction, Form, useMatches } from 'remix';
+import invariant from 'tiny-invariant';
 import { prisma } from '~/db.server';
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const name = formData.get('name');
   const email = formData.get('email');
-  if (name && email) {
-    await prisma.user.update({
-      where: {
-        email: email.toString(),
-      },
-      data: {
-        name: name.toString(),
-      },
-    });
-  }
+  invariant(name, 'name is required');
+  invariant(email, 'email is required');
+
+  await prisma.user.update({
+    where: {
+      email: email.toString(),
+    },
+    data: {
+      name: name.toString(),
+    },
+  });
+
   return null;
 };
 
