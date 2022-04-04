@@ -1,9 +1,8 @@
-import { LoaderFunction, useLoaderData } from 'remix';
+import { Link, LoaderFunction, Outlet, useLoaderData } from 'remix';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
 import { auth } from '~/utils/auth.server';
 import { Poll } from '~/utils/types';
-import { BsTrash } from 'react-icons/bs';
 import { Button } from '@mantine/core';
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -46,18 +45,30 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 function MyPolls() {
   const polls: Poll[] = useLoaderData();
-  console.log(polls);
+
   return (
-    <div className="flex flex-col ">
-      {polls.map((item: Poll) => (
-        <>
-          <PollItem key={item.id} poll={item} />
-          <Button variant="subtle" size="xs" compact type="button" className="mb-3" color="red">
-            Delete poll
-          </Button>
-        </>
-      ))}
-    </div>
+    <>
+      <Outlet />
+      <div className="flex flex-col ">
+        {polls.map((item: Poll) => (
+          <div key={item.id} className="flex flex-col w-full grow">
+            <PollItem poll={item} />
+            <Link to={`delete?poll=${item.id}`}>
+              <Button
+                variant="subtle"
+                size="xs"
+                compact
+                type="button"
+                className="flex w-[200px] justify-center mx-auto mb-3"
+                color="red"
+              >
+                Delete poll
+              </Button>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

@@ -23,7 +23,7 @@ function PollItem({ poll }: { poll: Poll }) {
       styles={{ body: { pointerEvents: 'none' } }}
       target={
         <>
-          <div className="flex items-start">
+          <div className="flex items-start ">
             <Link to={`/${poll.slug}`} className="flex flex-col p-2 rounded-lg cursor-pointer grow group">
               <p className="font-bold transition duration-150 ease-out transform group-hover:font-extrabold">
                 {poll.poll}

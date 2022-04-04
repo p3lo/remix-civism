@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   let tabIndex: number;
   if (url.pathname === '/profile/settings') {
     tabIndex = 0;
-  } else if (url.pathname === '/profile/mypolls') {
+  } else if (url.pathname.includes('/profile/mypolls')) {
     tabIndex = 1;
   } else {
     return redirect('/profile/settings');
