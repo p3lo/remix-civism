@@ -25,7 +25,7 @@ model poll {
   poll_description String?
   slug             String
   private          Boolean
-  author           user     @relation(fields: [authorId], references: [id])
+  author           user     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId         Int
   options          option[]
 }
@@ -34,6 +34,6 @@ model option {
   id     Int    @id @default(autoincrement())
   option String
   votes  Int    @default(0)
-  poll   poll   @relation(fields: [pollId], references: [id])
+  poll   poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
   pollId Int
 }

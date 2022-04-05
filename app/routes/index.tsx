@@ -1,4 +1,5 @@
-import { LoaderFunction, useLoaderData } from 'remix';
+import { ActionFunction, LoaderFunction, useLoaderData } from 'remix';
+import PaginationComp from '~/components/PaginationComp';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
 import { Poll } from '~/utils/types';
@@ -29,6 +30,12 @@ export const loader: LoaderFunction = async () => {
   return polls;
 };
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  console.log(formData);
+  return null;
+};
+
 export default function Index() {
   const polls: Poll[] = useLoaderData();
   return (
@@ -45,6 +52,9 @@ export default function Index() {
           {polls.map((item: Poll) => (
             <PollItem poll={item} key={item.id} />
           ))}
+        </div>
+        <div className="my-5 flex justify-center">
+          <PaginationComp />
         </div>
       </div>
     </>
