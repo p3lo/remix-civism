@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction, useLoaderData } from 'remix';
+import { LoaderFunction, useLoaderData } from 'remix';
 import PaginationComp from '~/components/PaginationComp';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
@@ -28,12 +28,6 @@ export const loader: LoaderFunction = async () => {
   });
 
   return polls;
-};
-
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  console.log(formData);
-  return null;
 };
 
 export default function Index() {
