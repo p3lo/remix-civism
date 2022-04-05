@@ -1,4 +1,4 @@
-import { Link, LoaderFunction, Outlet, useLoaderData } from 'remix';
+import { json, Link, LoaderFunction, Outlet, useLoaderData } from 'remix';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
 import { auth } from '~/utils/auth.server';
@@ -9,7 +9,9 @@ import PaginationComp from '~/components/PaginationComp';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const auth_profile = await auth.isAuthenticated(request);
-  let polls;
+  const url = new URL(request.url);
+  const page = url.searchParams.get('page') || 1;
+  let polls, pollsNoPag;
   invariant(auth_profile, 'auth_profile is required');
 
   const profile = await prisma.user.findUnique({
@@ -19,10 +21,18 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
   invariant(profile, 'profile is required');
   if (profile?.id) {
+    const pollsNo = await prisma.poll.count({
+      where: {
+        authorId: profile.id,
+      },
+    });
+    pollsNoPag = Math.ceil(pollsNo / 10);
     polls = await prisma.poll.findMany({
       where: {
         authorId: profile.id,
       },
+      skip: (+page - 1) * 10,
+      take: 10,
       include: {
         options: {
           orderBy: {
@@ -42,11 +52,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     });
   }
 
-  return polls;
+  return json({ polls, pollsNoPag });
 };
 
 function MyPolls() {
-  const polls: Poll[] = useLoaderData();
+  const { polls, pollsNoPag }: { polls: Poll[]; pollsNoPag: number } = useLoaderData();
 
   return (
     <>
@@ -69,8 +79,8 @@ function MyPolls() {
             </Link>
           </div>
         ))}
-        <div className="my-5 flex justify-center">
-          <PaginationComp from="mypolls" />
+        <div className="flex justify-center my-5">
+          <PaginationComp from="mypolls" pagesNo={pollsNoPag} />
         </div>
       </div>
     </>

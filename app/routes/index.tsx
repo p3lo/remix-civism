@@ -1,14 +1,25 @@
-import { LoaderFunction, useLoaderData } from 'remix';
+import { json, LoaderFunction, useLoaderData } from 'remix';
 import PaginationComp from '~/components/PaginationComp';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
 import { Poll } from '~/utils/types';
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const page = url.searchParams.get('page') || 1;
+
+  const pollsNo = await prisma.poll.count({
+    where: {
+      private: false,
+    },
+  });
+  const pollsNoPag = Math.ceil(pollsNo / 10);
   const polls = await prisma.poll.findMany({
     where: {
       private: false,
     },
+    skip: (+page - 1) * 10,
+    take: 10,
     include: {
       author: {
         select: {
@@ -27,11 +38,12 @@ export const loader: LoaderFunction = async () => {
     },
   });
 
-  return polls;
+  return json({ polls, pollsNoPag });
 };
 
 export default function Index() {
-  const polls: Poll[] = useLoaderData();
+  const { polls, pollsNoPag }: { polls: Poll[]; pollsNoPag: number } = useLoaderData();
+
   return (
     <>
       <div className="flex flex-col items-center justify-center mt-5 space-y-1 text-center">
@@ -47,8 +59,8 @@ export default function Index() {
             <PollItem poll={item} key={item.id} />
           ))}
         </div>
-        <div className="my-5 flex justify-center">
-          <PaginationComp from="index" />
+        <div className="flex justify-center my-5">
+          <PaginationComp from="index" pagesNo={pollsNoPag} />
         </div>
       </div>
     </>
