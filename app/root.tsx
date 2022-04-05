@@ -1,4 +1,5 @@
 import {
+  ActionFunction,
   Form,
   json,
   Link,
@@ -8,6 +9,7 @@ import {
   LoaderFunction,
   Meta,
   Outlet,
+  redirect,
   Scripts,
   ScrollRestoration,
   useCatch,
@@ -51,6 +53,17 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json(profile);
   } else {
     return null;
+  }
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const page = formData.get('page');
+  const from = formData.get('from');
+  if (from === 'mypolls') {
+    return redirect(`/profile/mypolls?page=${page}`);
+  } else {
+    return redirect(`?page=${page}`);
   }
 };
 

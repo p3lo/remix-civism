@@ -54,7 +54,7 @@ export default function Index() {
           ))}
         </div>
         <div className="my-5 flex justify-center">
-          <PaginationComp />
+          <PaginationComp from="index" />
         </div>
       </div>
     </>

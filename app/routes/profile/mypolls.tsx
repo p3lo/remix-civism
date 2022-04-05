@@ -5,6 +5,7 @@ import { auth } from '~/utils/auth.server';
 import { Poll } from '~/utils/types';
 import { Button } from '@mantine/core';
 import invariant from 'tiny-invariant';
+import PaginationComp from '~/components/PaginationComp';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const auth_profile = await auth.isAuthenticated(request);
@@ -68,6 +69,9 @@ function MyPolls() {
             </Link>
           </div>
         ))}
+        <div className="my-5 flex justify-center">
+          <PaginationComp from="mypolls" />
+        </div>
       </div>
     </>
   );
