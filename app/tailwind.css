@@ -579,6 +579,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 1rem;
 }
 
+.h-8 {
+  height: 2rem;
+}
+
 .min-h-full {
   min-height: 100%;
 }
@@ -617,6 +621,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[90vh\] {
   width: 90vh;
+}
+
+.w-8 {
+  width: 2rem;
 }
 
 .max-w-max {
@@ -773,6 +781,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-transparent {
   border-color: transparent;
+}
+
+.border-opacity-50 {
+  --tw-border-opacity: 0.5;
 }
 
 .bg-white {

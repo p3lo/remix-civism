@@ -29,6 +29,7 @@ import {
   Divider,
 } from '@mantine/core';
 import { BsSun, BsMoon } from 'react-icons/bs';
+import { RiGithubFill } from 'react-icons/ri';
 import { useLocalStorage } from '@mantine/hooks';
 import { auth } from './utils/auth.server';
 import { prisma } from './db.server';
@@ -165,7 +166,11 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
       <main className="flex-grow">
         <div className="">{children}</div>
       </main>
-      <footer className="p-4 border-t opacity-50"></footer>
+      <footer className="p-4 border-t border-opacity-50">
+        <a href="https://github.com/p3lo/remix-civism">
+          <RiGithubFill className="flex w-8 h-8 mx-auto" />
+        </a>
+      </footer>
     </div>
   );
 }
