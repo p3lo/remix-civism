@@ -7,6 +7,7 @@
   "scripts": {
     "build": "run-p build:*",
     "build:css": "npm run generate:css -- --minify",
+    "build:prisma": "prisma generate",
     "build:remix": "cross-env NODE_ENV=production remix build",
     "deploy": "fly deploy --remote-only",
     "dev": "run-p dev:*",
