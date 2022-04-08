@@ -2,7 +2,7 @@ import { Button, Modal } from '@mantine/core';
 import { ActionFunction, Form, json, LoaderFunction, redirect, useLoaderData, useMatches, useNavigate } from 'remix';
 import invariant from 'tiny-invariant';
 import { prisma } from '~/db.server';
-import { Poll } from '~/utils/types';
+import { Poll, User } from '~/utils/types';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
@@ -27,8 +27,8 @@ export const action: ActionFunction = async ({ request }) => {
 function MypollsDelete() {
   const navigate = useNavigate();
   const { pollId } = useLoaderData();
-  const user = useMatches()[0].data;
-  const polls = useMatches()[2].data;
+  const user = useMatches()[0].data as User;
+  const polls = useMatches()[2].data.polls as Poll[];
 
   const getPollIndex = polls.findIndex((poll: Poll) => poll.id === +pollId);
   if (polls[getPollIndex].authorId !== user.id) {
