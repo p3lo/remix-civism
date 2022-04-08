@@ -5,7 +5,7 @@ import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData, use
 import { prisma } from '~/db.server';
 import { getDate, getPercent, sumVotes } from '~/utils/functions';
 import { Option, Poll } from '~/utils/types';
-import { RiFileCopy2Line } from 'react-icons/ri';
+import { RiFileCopy2Line, RiRefreshLine } from 'react-icons/ri';
 
 export const loader: LoaderFunction = async ({ params }) => {
   let slug = params.slug;
@@ -26,6 +26,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       },
     },
   });
+
   if (!poll) {
     throw new Error('Poll not found');
   } else {
@@ -37,6 +38,9 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const option = formData.get('option');
   const oldOption = formData.get('oldOption');
+  if (formData.get('_action') === 'refresh') {
+    return null;
+  }
 
   if (oldOption && +oldOption > 0) {
     await prisma.option.update({
@@ -118,8 +122,15 @@ function PollSlug() {
         <input hidden name="oldOption" value={optionId} readOnly />
       </Form>
       <div className="w-full my-10 mx-auto sm:w-[80%] md:w-[65%] xl:w-[50%]">
-        <p className="mt-2 text-sm font-semibold text-center">Results</p>
-        <p className="text-xs text-center opacity-50">(Total votes: {totalVotes})</p>
+        <p className="mt-2 text-sm font-semibold text-center ">Results</p>
+        <div className="grid grid-cols-3 ">
+          <p className="col-start-2 text-xs text-center opacity-50">(Total votes: {totalVotes})</p>
+          <Form method="post" className="mr-4 justify-self-end">
+            <button type="submit" name="_action" value="refresh">
+              <RiRefreshLine className="w-4 h-4 hover:transition hover:duration-500 hover:transform hover:rotate-180" />
+            </button>
+          </Form>
+        </div>
         {poll.options.map((item) => (
           <div className="flex flex-col" key={item.id}>
             <p className="text-sm pl-7">{item.option}</p>
