@@ -36,7 +36,7 @@ function PollItem({ poll }: { poll: Poll }) {
               </div>
             </Link>
             <AiOutlineEye
-              className="w-5 h-5 m-2 transition duration-150 ease-out transform cursor-help hover:scale-125"
+              className="flex-none w-5 h-5 m-2 transition duration-150 ease-out transform cursor-help hover:scale-125"
               onMouseEnter={() => setOpened(true)}
               onMouseLeave={() => setOpened(false)}
             />
@@ -45,13 +45,13 @@ function PollItem({ poll }: { poll: Poll }) {
         </>
       }
     >
-      <div className="flex flex-col space-y-2 w-[450px] mb-3">
+      <div className="flex flex-col space-y-2 w-[400px] sm:w-[450px] mb-3">
         <p className="mx-auto mt-2 font-bold">Poll votes</p>
         {poll.options.map((item) => (
           <div className="flex flex-col" key={item.id}>
-            <p className="w-1/2 text-sm truncate">{item.option}</p>
+            <p className="w-3/4 text-sm truncate">{item.option}</p>
             <div className="flex items-center space-x-1">
-              <p className="text-xs opacity-50">{`${getPercent(item.votes, totalVotes)}%`}</p>
+              <p className="text-xs opacity-50 w-[35px]">{`${getPercent(item.votes, totalVotes)}%`}</p>
               <Progress value={getPercent(item.votes, totalVotes)} size={18} radius="xs" className="grow" />
               <p className="text-xs opacity-50 w-[45px] text-center">({item.votes})</p>
             </div>

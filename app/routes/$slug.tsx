@@ -133,7 +133,7 @@ function PollSlug() {
         </div>
         {poll.options.map((item) => (
           <div className="flex flex-col" key={item.id}>
-            <p className="text-sm pl-7">{item.option}</p>
+            <p className="text-sm px-7">{item.option}</p>
             <div className="flex items-center space-x-1">
               <p className="w-[25px] text-xs opacity-50">{`${getPercent(item.votes, totalVotes)}%`}</p>
               <Progress value={getPercent(item.votes, totalVotes)} size={25} radius="xs" className="grow" />
