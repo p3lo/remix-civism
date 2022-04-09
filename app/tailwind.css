@@ -583,12 +583,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
-.w-\[450px\] {
-  width: 450px;
+.w-\[400px\] {
+  width: 400px;
 }
 
-.w-1\/2 {
-  width: 50%;
+.w-3\/4 {
+  width: 75%;
+}
+
+.w-\[35px\] {
+  width: 35px;
 }
 
 .w-\[45px\] {
@@ -605,18 +609,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[200px\] {
   width: 200px;
-}
-
-.w-\[400px\] {
-  width: 400px;
-}
-
-.w-\[35px\] {
-  width: 35px;
-}
-
-.w-3\/4 {
-  width: 75%;
 }
 
 .max-w-max {
@@ -812,22 +804,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.5rem;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .px-7 {
   padding-left: 1.75rem;
   padding-right: 1.75rem;
 }
 
-.pb-2 {
-  padding-bottom: 0.5rem;
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
-.pl-7 {
-  padding-left: 1.75rem;
+.pb-2 {
+  padding-bottom: 0.5rem;
 }
 
 .text-center {
@@ -1045,16 +1033,16 @@ Ensure the default browser behavior of the `hidden` attribute.
     display: flex;
   }
 
+  .sm\:w-\[450px\] {
+    width: 450px;
+  }
+
   .sm\:w-\[80\%\] {
     width: 80%;
   }
 
   .sm\:w-3\/4 {
     width: 75%;
-  }
-
-  .sm\:w-\[450px\] {
-    width: 450px;
   }
 
   .sm\:border-l {

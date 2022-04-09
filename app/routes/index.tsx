@@ -1,8 +1,15 @@
-import { json, LoaderFunction, useLoaderData } from 'remix';
+import { json, LoaderFunction, MetaFunction, useLoaderData } from 'remix';
 import PaginationComp from '~/components/PaginationComp';
 import PollItem from '~/components/PollItem';
 import { prisma } from '~/db.server';
 import { Poll } from '~/utils/types';
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Civism',
+    description: 'A platform to build your own polls.',
+  };
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);

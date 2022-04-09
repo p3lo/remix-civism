@@ -1,11 +1,35 @@
 import { Code, LoadingOverlay, Progress, Radio, RadioGroup } from '@mantine/core';
 import { useClipboard, useLocalStorage } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData, useSubmit, useTransition } from 'remix';
+import {
+  ActionFunction,
+  Form,
+  LoaderFunction,
+  MetaFunction,
+  useActionData,
+  useLoaderData,
+  useSubmit,
+  useTransition,
+} from 'remix';
 import { prisma } from '~/db.server';
 import { getDate, getPercent, sumVotes } from '~/utils/functions';
 import { Option, Poll } from '~/utils/types';
 import { RiFileCopy2Line, RiRefreshLine } from 'react-icons/ri';
+
+export const meta: MetaFunction = ({ data, params }) => {
+  if (!data) {
+    return {
+      title: 'Missing Poll',
+      description: `There is no poll with the ID of ${params.slug}. 😢`,
+    };
+  }
+
+  const poll = data as Poll;
+  return {
+    title: `Poll - ${poll.poll}`,
+    description: poll.poll,
+  };
+};
 
 export const loader: LoaderFunction = async ({ params }) => {
   let slug = params.slug;

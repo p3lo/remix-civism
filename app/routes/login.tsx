@@ -1,6 +1,13 @@
 import { Button, Center } from '@mantine/core';
-import { Form, LoaderFunction } from 'remix';
+import { Form, LoaderFunction, MetaFunction } from 'remix';
 import { auth } from '~/utils/auth.server';
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Login',
+    description: 'Login to start creating polls.',
+  };
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   await auth.isAuthenticated(request, { successRedirect: '/' });

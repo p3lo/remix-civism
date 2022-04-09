@@ -37,6 +37,7 @@ import { prisma } from './db.server';
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'Civism',
+  description: 'A platform to build your own polls',
   viewport: 'width=device-width,initial-scale=1',
 });
 
@@ -71,7 +72,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
-    defaultValue: 'light',
+    defaultValue: 'dark',
   });
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
