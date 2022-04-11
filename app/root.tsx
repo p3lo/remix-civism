@@ -27,12 +27,15 @@ import {
   Avatar,
   Menu,
   Divider,
+  Burger,
+  Drawer,
 } from '@mantine/core';
 import { BsSun, BsMoon } from 'react-icons/bs';
 import { RiGithubFill } from 'react-icons/ri';
 import { useLocalStorage } from '@mantine/hooks';
 import { auth } from './utils/auth.server';
 import { prisma } from './db.server';
+import { useState } from 'react';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -110,6 +113,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
   const profile = useLoaderData();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
+  const [opened, setOpened] = useState(false);
   return (
     <div className="flex flex-col justify-between h-screen">
       <header className="p-3 shadow-xl ">
@@ -119,48 +123,114 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
               <h1 className="text-2xl font-extrabold">Civism</h1>
             </Link>
           </div>
-          <div className="flex items-center justify-end space-x-3">
-            {profile ? (
-              <Menu
-                trigger="click"
-                delay={500}
-                control={
-                  <Avatar color="cyan" radius="xl">
-                    {profile.name.charAt(0).toUpperCase()}
-                  </Avatar>
-                }
-              >
-                <Menu.Item>
-                  <Link to="/profile/settings">Profile</Link>
-                </Menu.Item>
-                <Divider />
-                <Menu.Item>
-                  <Link to="/new">New poll</Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Link to="/profile/mypolls">My polls</Link>
-                </Menu.Item>
-
-                <Divider />
-                <Form method="post" action="/logout">
-                  <Menu.Item component="button" type="submit" color="red">
-                    Logout
+          <div className="flex justify-end">
+            <div className="flex items-center justify-end space-x-3 invisible md:visible">
+              {profile ? (
+                <Menu
+                  trigger="click"
+                  delay={500}
+                  control={
+                    <Avatar color="cyan" radius="xl">
+                      {profile.name.charAt(0).toUpperCase()}
+                    </Avatar>
+                  }
+                >
+                  <Menu.Item>
+                    <Link to="/profile/settings">Profile</Link>
                   </Menu.Item>
-                </Form>
-              </Menu>
-            ) : (
-              <Link to="/login">
-                <Button variant="subtle">Login</Button>
-              </Link>
-            )}
-            <ActionIcon
-              variant="outline"
-              color={dark ? 'yellow' : 'blue'}
-              onClick={() => toggleColorScheme()}
-              title="Toggle color scheme"
-            >
-              {dark ? <BsSun size={18} className="text-yellow-400" /> : <BsMoon size={18} className="text-blue-500" />}
-            </ActionIcon>
+                  <Divider />
+                  <Menu.Item>
+                    <Link to="/new">New poll</Link>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <Link to="/profile/mypolls">My polls</Link>
+                  </Menu.Item>
+
+                  <Divider />
+                  <Form method="post" action="/logout">
+                    <Menu.Item component="button" type="submit" color="red">
+                      Logout
+                    </Menu.Item>
+                  </Form>
+                </Menu>
+              ) : (
+                <Link to="/login">
+                  <Button variant="subtle">Login</Button>
+                </Link>
+              )}
+              <ActionIcon
+                variant="outline"
+                color={dark ? 'yellow' : 'blue'}
+                onClick={() => toggleColorScheme()}
+                title="Toggle color scheme"
+              >
+                {dark ? (
+                  <BsSun size={18} className="text-yellow-400" />
+                ) : (
+                  <BsMoon size={18} className="text-blue-500" />
+                )}
+              </ActionIcon>
+            </div>
+            <div className="flex items-center justify-end space-x-3 md:invisible">
+              <Burger opened={opened} onClick={() => setOpened((o) => !o)} />
+
+              <Drawer opened={opened} onClose={() => setOpened(false)} position="right" padding="md" size="md">
+                <div className="w-full flex flex-col space-y-3">
+                  {profile ? (
+                    <>
+                      <div className="flex flex-col items-center justify-center space-y-1">
+                        <Avatar color="cyan" radius={50} size="xl">
+                          {profile.name.charAt(0).toUpperCase()}
+                        </Avatar>
+                        <p className="text-sm">{profile.name}</p>
+                      </div>
+                      <Divider />
+                      <Link to="/profile/settings">
+                        <Button className="w-full" size="sm" variant="subtle">
+                          Profile
+                        </Button>
+                      </Link>
+                      <Divider />
+                      <Link to="/new">
+                        <Button className="w-full" size="sm" variant="subtle">
+                          New poll
+                        </Button>
+                      </Link>
+                      <Link to="/profile/mypolls">
+                        <Button className="w-full" size="sm" variant="subtle">
+                          My polls
+                        </Button>
+                      </Link>
+                      <Divider />
+                      <Form method="post" action="/logout">
+                        <Button className="w-full" variant="subtle" component="button" type="submit" color="red">
+                          Logout
+                        </Button>
+                      </Form>
+                    </>
+                  ) : (
+                    <Link to="/login">
+                      <Button className="w-full" size="sm" variant="subtle">
+                        Login
+                      </Button>
+                    </Link>
+                  )}
+                  <ActionIcon
+                    variant="outline"
+                    color={dark ? 'yellow' : 'blue'}
+                    onClick={() => toggleColorScheme()}
+                    title="Toggle color scheme"
+                    className="-top-[90px]"
+                  >
+                    {dark ? (
+                      <BsSun size={18} className="text-yellow-400" />
+                    ) : (
+                      <BsMoon size={18} className="text-blue-500" />
+                    )}
+                  </ActionIcon>
+                </div>
+              </Drawer>
+            </div>
           </div>
         </div>
       </header>
