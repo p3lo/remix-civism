@@ -6,6 +6,7 @@ import {
   Form,
   LoaderFunction,
   MetaFunction,
+  redirect,
   useActionData,
   useLoaderData,
   useSubmit,
@@ -52,7 +53,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   });
 
   if (!poll) {
-    throw new Error('Poll not found');
+    return redirect('/');
   } else {
     return poll;
   }
