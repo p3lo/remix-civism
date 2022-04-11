@@ -4,7 +4,7 @@ import { auth } from '~/utils/auth.server';
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Login',
+    title: 'Civism',
     description: 'Login to start creating polls.',
   };
 };

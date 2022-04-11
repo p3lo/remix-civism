@@ -480,12 +480,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   position: relative;
 }
 
-.-top-\[90px\] {
-  top: -90px;
-}
-
 .-top-\[390px\] {
   top: -390px;
+}
+
+.-top-\[90px\] {
+  top: -90px;
 }
 
 .col-start-2 {
