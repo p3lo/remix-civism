@@ -186,24 +186,31 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
                       </div>
                       <Divider />
                       <Link to="/profile/settings">
-                        <Button className="w-full" size="sm" variant="subtle">
+                        <Button className="w-full" size="sm" variant="subtle" onClick={() => setOpened(false)}>
                           Profile
                         </Button>
                       </Link>
                       <Divider />
                       <Link to="/new">
-                        <Button className="w-full" size="sm" variant="subtle">
+                        <Button className="w-full" size="sm" variant="subtle" onClick={() => setOpened(false)}>
                           New poll
                         </Button>
                       </Link>
                       <Link to="/profile/mypolls">
-                        <Button className="w-full" size="sm" variant="subtle">
+                        <Button className="w-full" size="sm" variant="subtle" onClick={() => setOpened(false)}>
                           My polls
                         </Button>
                       </Link>
                       <Divider />
                       <Form method="post" action="/logout">
-                        <Button className="w-full" variant="subtle" component="button" type="submit" color="red">
+                        <Button
+                          className="w-full"
+                          variant="subtle"
+                          component="button"
+                          type="submit"
+                          color="red"
+                          onClick={() => setOpened(false)}
+                        >
                           Logout
                         </Button>
                       </Form>
@@ -220,7 +227,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
                     color={dark ? 'yellow' : 'blue'}
                     onClick={() => toggleColorScheme()}
                     title="Toggle color scheme"
-                    className="-top-[90px]"
+                    className={profile ? '-top-[390px]' : '-top-[90px]'}
                   >
                     {dark ? (
                       <BsSun size={18} className="text-yellow-400" />
